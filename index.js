@@ -20,7 +20,7 @@ app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extends: false}))
 
-app.use("/product", productRoute)
+app.use("/product", productRoute )
 app.get("/test", (req, res) => {
     res.json({
         msg: "test api"
