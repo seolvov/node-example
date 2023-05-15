@@ -6,6 +6,8 @@ import dotEnv from "dotenv"
 
 import connectDB from "./config/database.js";
 import productRoute from "./routes/product.js"
+import orderRoute from "./routes/order.js"
+
 
 dotEnv.config()
 
@@ -21,6 +23,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({extends: false}))
 
 app.use("/product", productRoute )
+app.use("/order", orderRoute)
 app.get("/test", (req, res) => {
     res.json({
         msg: "test api"
