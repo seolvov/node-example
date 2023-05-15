@@ -1,12 +1,29 @@
 import express from "express";
 import productModel from "../models/product.js";
+import product from "../models/product.js";
 
 const router = express.Router()
 
 // console.log("success")
-router.get("/all", (req, res) => {
+router.get("/all", async (req, res) => {
+    const products = await productModel.find()
     res.json({
-        msg: "product get all"
+        msg: "product get all",
+        count: products.length,
+        products: products.map(item => {
+            return {
+                id: item._id,
+                title: item.title,
+                price: item.price
+            }
+        })
+    })
+})
+router.get("/:productId", async(req, res) => {
+    const product = await productModel.findById(req.params.productId)
+    res.json({
+        msg: `successful get ${req.params.productId}`,
+        product: product
     })
 })
 router.post("/", async (req, res) => {
