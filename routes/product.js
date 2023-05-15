@@ -43,9 +43,20 @@ router.post("/", async (req, res) => {
         product: newProduct
     })
 })
-router.put("/", (req, res) => {
+router.put("/:productId", async (req, res) => {
+    const product = await productModel.findById(req.params.productId)
+    if(product) {
+        product.title = req.body.productTitle ? req.body.productTitle : product.title
+        product.price = req.body.productPrice ? req.body.productPrice : product.price
+        product.description = req.body.productDesc ? req.body.productDesc : product.description
+        product.brand = req.body.productbrand ? req.body.productbrand : product.brand
+        product.company = req.body.productCompany ? req.body.productCompany : product.company
+        product.stock = req.body.productStock ? req.body.productStock : product.stock
+    }
+    const updateProduct = await product.save()
     res.json({
-        msg: "updated a product"
+        msg: `updated product at ${req.params.productId}`,
+        product: updateProduct
     })
 })
 router.delete("/", async (req, res) => {
