@@ -20,20 +20,17 @@ router.get("/all", async (req, res) => {
     })
 })
 router.get("/:productId", async(req, res) => {
-    const product = await productModel.findById(req.params.productId)
+    const { productId } = req.params
+    const product = await productModel.findById(productId)
     res.json({
-        msg: `successful get ${req.params.productId}`,
-        product: product
+        msg: `successful get ${productId}`,
+        product
     })
 })
 router.post("/", async (req, res) => {
+    const { title, price, description, brand, company, stock } = req.body
     const userInput = new productModel({
-        title: req.body.productTitle,
-        price: req.body.productPrice,
-        description: req.body.productDesc,
-        brand: req.body.productBrand,
-        company: req.body.productCompany,
-        stock: req.body.productStock
+        title, price, description, brand, company, stock
     })
 
     const newProduct = await userInput.save()
@@ -44,18 +41,20 @@ router.post("/", async (req, res) => {
     })
 })
 router.put("/:productId", async (req, res) => {
-    const product = await productModel.findById(req.params.productId)
+    const { title, price, description, brand, company, stock } = req.body
+    const { productId } = req.params
+    const product = await productModel.findById(productId)
     if(product) {
-        product.title = req.body.productTitle ? req.body.productTitle : product.title
-        product.price = req.body.productPrice ? req.body.productPrice : product.price
-        product.description = req.body.productDesc ? req.body.productDesc : product.description
-        product.brand = req.body.productbrand ? req.body.productbrand : product.brand
-        product.company = req.body.productCompany ? req.body.productCompany : product.company
-        product.stock = req.body.productStock ? req.body.productStock : product.stock
+        product.title = title ? title : product.title
+        product.price = price ? price : product.price
+        product.description = description ? description : product.description
+        product.brand = brand ? brand : product.brand
+        product.company = company ? company : product.company
+        product.stock = stock ? stock : product.stock
     }
     const updateProduct = await product.save()
     res.json({
-        msg: `updated product at ${req.params.productId}`,
+        msg: `updated product at ${productId}`,
         product: updateProduct
     })
 })
@@ -66,9 +65,10 @@ router.delete("/", async (req, res) => {
     })
 })
 router.delete("/:productId", async (req, res) => {
-    await productModel.findByIdAndDelete(req.params.productId)
+    const { productId } = req.params
+    await productModel.findByIdAndDelete(productId)
     res.json({
-        msg: `deleted a product at ${req.params.productId}`
+        msg: `deleted a product at ${productId}`
     })
 })
 
