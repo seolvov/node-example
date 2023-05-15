@@ -48,9 +48,16 @@ router.put("/", (req, res) => {
         msg: "updated a product"
     })
 })
-router.delete("/", (req, res) => {
+router.delete("/", async (req, res) => {
+    await productModel.deleteMany()
     res.json({
-        msg: "deleted a product"
+        msg: "deleted all products"
+    })
+})
+router.delete("/:productId", async (req, res) => {
+    await productModel.findByIdAndDelete(req.params.productId)
+    res.json({
+        msg: `deleted a product at ${req.params.productId}`
     })
 })
 
