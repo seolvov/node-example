@@ -6,7 +6,7 @@ const productSchema = mongoose.Schema(
         price: Number,
         description: String,
         brand: String,
-        company: Stirng,
+        company: String,
         stock: Number
     },
     {
@@ -14,6 +14,6 @@ const productSchema = mongoose.Schema(
     }
 )
 
-const productModel = productSchema.model("product", productSchema)
+const productModel = mongoose.model("product", productSchema)
 
 export default productModel

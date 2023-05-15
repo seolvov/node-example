@@ -1,4 +1,5 @@
 import express from "express";
+import productModel from "../models/product.js";
 
 const router = express.Router()
 
@@ -8,23 +9,29 @@ router.get("/all", (req, res) => {
         msg: "product get all"
     })
 })
-router.post("/create", (req, res) => {
-    const userInput = {
-        name: req.body.productName,
+router.post("/", async (req, res) => {
+    const userInput = new productModel({
+        title: req.body.productTitle,
         price: req.body.productPrice,
+        description: req.body.productDesc,
+        brand: req.body.productBrand,
+        company: req.body.productCompany,
         stock: req.body.productStock
-    }
+    })
+
+    const newProduct = await userInput.save()
+
     res.json({
         msg: "created a product",
-        product: userInput
+        product: newProduct
     })
 })
-router.put("/update", (req, res) => {
+router.put("/", (req, res) => {
     res.json({
         msg: "updated a product"
     })
 })
-router.delete("/delete", (req, res) => {
+router.delete("/", (req, res) => {
     res.json({
         msg: "deleted a product"
     })
